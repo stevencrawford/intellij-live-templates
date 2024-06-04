@@ -134,7 +134,36 @@ spring:
 
 # Typescript
 
-TODO: Add more
+## NestJS
+
+1. `nestjs-module` - NestJS Module class
+
+```
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+})
+export class $MODULE_NAME$Module {}
+```
+
+2. `nestjs-service` - NestJS Service class
+
+```
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class $SERVICE_NAME$Service {
+
+    constructor(
+        $END$
+    ) {
+    
+    }
+}
+```
 
 # AI Prompts
 
