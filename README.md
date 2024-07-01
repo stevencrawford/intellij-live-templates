@@ -1,6 +1,6 @@
 # Intellij Live Templates
 
-A collection of [Live Templates for IntelliJ](https://www.jetbrains.com/help/idea/using-live-templates.html) used in my day-to-day development across Java and Typescript. 
+A collection of [Live Templates for IntelliJ](https://www.jetbrains.com/help/idea/using-live-templates.html) used in my day-to-day Java development.
 
 # Java
 
@@ -68,7 +68,7 @@ class $name$ {
 
 ```
 @org.junit.jupiter.api.Test
-public void given$Given$_when$When$_then$Then() {
+public void given$Given$_when$When$_then$Then$() throws Exception {
     // arrange
     $END$
     
@@ -97,6 +97,77 @@ private $TargetType$ $fieldName$;
 
 ```
 $TargetType$ $fieldName$ = org.mockito.Mockito.mock($TargetType$.class);
+```
+
+## Testing (REST-assured)
+
+1. `rest-assured-get` - Sample GET request with assertions
+
+```
+io.restassured.RestAssured.given()
+    .header("", "")
+    .when()
+    .get("/api/$PATH$")
+    .then()
+    .statusCode(200)
+    .body("id", org.hamcrest.Matchers.notNullValue())
+;
+```
+
+2. `rest-assured-post` - Sample POST request with assertions
+
+```
+io.restassured.RestAssured.given().contentType(io.restassured.http.ContentType.JSON)
+    .body("""
+          $BODY$
+        """
+    )
+    .header("", "")
+    .when()
+    .post("/api/$PATH$")
+    .then()
+    .statusCode(201)
+    .body("id", org.hamcrest.Matchers.notNullValue())
+;
+```
+
+## Testing (MockMvc)
+
+1. `mockmvc-test-class` A skeleton test class for a given Controller class
+
+```
+@org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest($NAME$Controller.class)
+public class $NAME$ControllerMockMvcTest {
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private org.springframework.test.web.servlet.MockMvc mockMvc;
+    
+}
+```
+
+2. `mockmvc-perform-get` A GET request with jsonPath assertions
+
+```
+mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/$PATH$"))
+        .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.content().contentType("application/json"))
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.id").value(org.hamcrest.CoreMatchers.is("some-value")));
+;
+```
+
+3. `mockmvc-perform-post` A POST request with JSON Body
+
+```
+mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/$PATH$")
+                .contentType("application/json")
+                .content("""
+                            {
+                            }
+                            """))
+        .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultHandlers.status().isNoContent())
+;
 ```
 
 ## Testing (Cucumber)
@@ -130,39 +201,6 @@ spring:
             token-uri: https://$yourIdpDomain$/oauth2/v1/token
             user-info-uri: https://$yourIdpDomain$/oauth2/v1/userinfo
             jwk-set-uri: https://$yourIdpDomain$/oauth2/v1/keys
-```
-
-# Typescript
-
-## NestJS
-
-1. `nestjs-module` - NestJS Module class
-
-```
-import { Module } from '@nestjs/common';
-
-@Module({
-  imports: [],
-  controllers: [],
-  providers: [],
-})
-export class $MODULE_NAME$Module {}
-```
-
-2. `nestjs-service` - NestJS Service class
-
-```
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
-export class $SERVICE_NAME$Service {
-
-    constructor(
-        $END$
-    ) {
-    
-    }
-}
 ```
 
 # AI Prompts
